@@ -1,0 +1,21 @@
+name: Job Agendado Noturno
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  
+  workflow_dispatch:
+
+jobs:
+  tarefa_noturna:
+    runs-on: ubuntu-latest
+    
+    # Este job inteiro agora só roda no horário agendado (ou manualmente)
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Executar tarefa noturna
+        run: |
+      
