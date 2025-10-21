@@ -1,0 +1,22 @@
+/* Definição de estilo para um elemento */
+h1 {
+  color: blue;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* Definição de estilo para um elemento com uma classe */
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: lightgray;
+  border: 1px solid gray;
+}
+
+/* Definição de estilo para um elemento com um ID */
+#header {
+  background-color: lightblue;
+  padding: 10px;
+  text-align: center;
+}
