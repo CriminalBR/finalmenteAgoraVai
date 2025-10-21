@@ -1,0 +1,40 @@
+name: Steps em sequencia (Modificado)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: 
+
+jobs:
+  info-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: 2. Obter Data (Fuso SP)
+        run: |
+          echo "Data do push (SP): $(TZ="America/Sao_Paulo" date +"%Y-%m-%d")"
+
+      - name: 3. Obter Autor do Commit
+        run: |
+          # Pega o nome do autor do último commit
+          AUTHOR=$(git log -1 --pretty=format:%an)
+          echo "Autor do commit: $AUTHOR"
+
+      - name: 4. Contar arquivos principais do projeto
+        run: |
+          echo "--- Contagem de Arquivos na Raiz ---"
+          # Usando 'find' em vez de 'ls' - parece diferente, faz o mesmo
+          # -maxdepth 1: Procura só na raiz (não em subpastas)
+          # -type f: Apenas arquivos
+          # -name '*.html': Pelo nome
+          # wc -l: Conta as linhas
+          HTML_COUNT=$(find . -maxdepth 1 -type f -name '*.html' | wc -l)
+          CSS_COUNT=$(find . -maxdepth 1 -type f -name '*.css' | wc -l)
+          JS_COUNT=$(find . -maxdepth 1 -type f -name '*.js' | wc -l)
+          
+          echo "Arquivos HTML: $HTML_COUNT"
+          echo "Arquivos CSS: $CSS_COUNT"
+          echo "Arquivos JS: $JS_COUNT"
