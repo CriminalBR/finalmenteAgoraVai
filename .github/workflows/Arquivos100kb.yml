@@ -1,0 +1,35 @@
+name: Verificar Tamanho de Arquivos
+
+
+on:
+  push:        
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verificar-tamanho:
+    runs-on: ubuntu-latest
+    
+    steps:
+      
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      
+      - name: Procurar arquivos maiores que 100KB
+        run: |
+          # Encontra arquivos (-type f) maiores que 100kB (-size +100k)
+          # Exclui a pasta .git da busca (-path ./.git -prune -o)
+          LISTA_ARQUIVOS=$(find . -path ./.git -prune -o -type f -size +100k -print)
+          
+          # Verifica se a lista NÃO está vazia
+          if [ -n "$LISTA_ARQUIVOS" ]; then
+            echo "::error::Arquivos maiores que 100KB foram detectados!"
+            echo "----------------------------------------------------"
+            echo "$LISTA_ARQUIVOS"
+            echo "----------------------------------------------------"
+            echo "Por favor, remova ou otimize esses arquivos."
+            exit 1 # Falha a action
+          else
+            echo "Nenhum arquivo grande encontrado. Verificação OK!"
+          fi
